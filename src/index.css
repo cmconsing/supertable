@@ -904,6 +904,33 @@ button { font-family: inherit; cursor: pointer; }
   font-weight: 500;
 }
 
+/* Mobile name tooltip — appears when a truncated team name is tapped.
+   position: fixed escapes the column's overflow clipping; coordinates are
+   computed in TeamRow from the name span's bounding rect. Auto-dismisses
+   from a setTimeout in the component, also fades via CSS. */
+.name-tip {
+  position: fixed;
+  z-index: 100;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 13px;
+  font-weight: 500;
+  max-width: calc(100vw - 24px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+  animation: name-tip-in 0.14s ease-out;
+}
+@keyframes name-tip-in {
+  from { opacity: 0; transform: translateY(2px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* Zone styling */
 .team-row[data-zone='UCL_LEAGUE'] { background: var(--zone-ucl-bg); border-left-color: var(--zone-ucl-border); }
 .team-row[data-zone='UCL_QUALIFYING'] { background: var(--zone-uclq-bg); border-left-color: var(--zone-uclq-border); }

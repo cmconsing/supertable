@@ -5,7 +5,10 @@ import { ZONES } from './qualificationRules.js';
 //
 // Fields:
 //   cupName: display name of the competition.
-//   teamName: winner — null until known.
+//   teamName: winner — null until known. Use the team name as it appears in
+//     the SuperTable column (i.e. the football-data.org `shortName`, e.g.
+//     "Real Sociedad", "Barça", "Bayern", "Inter"). normalizeTeamName() in
+//     resolveZones.js handles minor variants if you paste the long form.
 //   qualified: true once the cup is decided AND the winner's spot is confirmed.
 //     Cascade and badge are only applied when both teamName != null AND qualified == true.
 //   earnedCompetition: which European zone the cup grants.
@@ -18,7 +21,7 @@ export const CUP_WINNERS = {
   },
   LAL: {
     cupName: 'Copa del Rey',
-    teamName: 'Real Sociedad de Fútbol',
+    teamName: 'Real Sociedad',
     qualified: true,
     earnedCompetition: ZONES.UEL_LEAGUE,
   },
@@ -48,8 +51,7 @@ export const CUP_WINNERS = {
 // 2025-26 trophy winners — TBD until the finals in late May / early June.
 //
 // To populate after a final:
-//   teamName: 'Full Club Name FC' (use the football-data.org form for live
-//     parity; normalizeTeamName in resolveZones.js handles minor variants)
+//   teamName: as it appears in the SuperTable column (shortName)
 //   leagueId: which top-5 league they play in (EPL/LAL/BUN/SEA/LI1)
 //   qualified: true
 export const TITLE_HOLDERS = {

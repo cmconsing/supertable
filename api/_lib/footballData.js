@@ -2,6 +2,8 @@
 // standings with exponential backoff (1s → 2s → 4s) and normalizes to the
 // internal shape the rest of the app expects.
 
+import { commonName } from './teamNames.js';
+
 const BASE = 'https://api.football-data.org/v4';
 const ATTEMPT_DELAYS_MS = [1000, 2000, 4000];
 
@@ -45,7 +47,12 @@ function normalize(code, json) {
 
   const teams = table.map((row) => ({
     rank: row.position,
-    name: row.team?.name ?? row.team?.shortName ?? 'Unknown',
+    // Curated common-name lookup (see teamNames.js). Falls through to the
+    // API's shortName, then to the full name. fullName is preserved so the
+    // row tooltip can show "FC Bayern München" while the cell shows
+    // "Bayern Munich".
+    name: commonName(row.team),
+    fullName: row.team?.name ?? row.team?.shortName ?? 'Unknown',
     teamId: row.team?.id,
     logo: row.team?.crest,
     played: row.playedGames ?? 0,
