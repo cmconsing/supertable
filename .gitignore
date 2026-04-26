@@ -12,3 +12,4 @@ dist-ssr
 # Claude Code per-project settings (contains command-approval history that
 # may include API tokens captured from accepted curl commands)
 .claude/
+.vercel
