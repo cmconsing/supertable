@@ -170,6 +170,129 @@ button { font-family: inherit; cursor: pointer; }
 .app-header__right { position: relative; display: inline-flex; gap: 8px; align-items: center; }
 .legend-wrapper { position: relative; }
 
+/* ===== Mobile header (≤720px) =====
+   Wordmark + LIVE pill on the left, single hamburger on the right. Tap the
+   button to drop a full-width panel containing nav, legend, theme, and
+   season label. Desktop header is rendered by a separate component branch
+   in Header.jsx, so styles here only apply when MobileHeader is in the DOM. */
+.app-header--mobile {
+  position: relative;
+  padding: 12px 16px;
+}
+.hamburger {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 4px;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+.hamburger:hover { background: var(--surface-2); }
+.app-header--mobile.is-menu-open .hamburger { background: var(--surface-2); }
+
+.mobile-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+  z-index: 90;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 0.18s ease-out, transform 0.18s ease-out;
+}
+.mobile-menu.is-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.mobile-menu__nav {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+}
+.mobile-menu__link {
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  /* big tap targets — minimum 44px high */
+  min-height: 44px;
+}
+.mobile-menu__link:active,
+.mobile-menu__link:hover { background: var(--surface-2); }
+.mobile-menu__link.is-active {
+  color: var(--text);
+  background: var(--surface-2);
+  position: relative;
+}
+.mobile-menu__link.is-active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 8px; bottom: 8px;
+  width: 3px;
+  background: var(--accent);
+  border-radius: 0 2px 2px 0;
+}
+
+.mobile-menu__divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0;
+}
+
+.mobile-menu__section {
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.mobile-menu__section-label,
+.mobile-menu__row-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-faint);
+}
+
+/* Inside the mobile menu the legend renders inline (no panel) — override
+   the absolute-positioned wrapper styles. */
+.mobile-menu .legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  max-width: none;
+}
+
+.mobile-menu__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  min-height: 44px;
+}
+.mobile-menu__row--meta { padding-bottom: 18px; }
+.mobile-menu__row-value {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
 /* ===== Page ===== */
 .page { padding: 16px 20px 60px; }
 .page-empty { padding: 40px 0; text-align: center; color: var(--text-dim); font-size: 13px; }
