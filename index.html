@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Favicon + theme -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#0c0c0e" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f4f4f6" media="(prefers-color-scheme: light)" />
+
+    <!-- Description / search -->
+    <meta name="description" content="The fastest way to follow the European football season. Five leagues, one view — standings color-coded by Champions League, Europa League, Conference League, and relegation." />
+
+    <!-- Open Graph / Twitter. og:image is a dynamically-rendered snapshot
+         of the current top of each league (see /api/og.js). -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SuperTable" />
+    <meta property="og:description" content="Five top European leagues, one view. Standings color-coded by what actually matters." />
+    <meta property="og:site_name" content="SuperTable" />
+    <meta property="og:image" content="/api/og" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SuperTable" />
+    <meta name="twitter:description" content="Five top European leagues, one view. Standings color-coded by what actually matters." />
+    <meta name="twitter:image" content="/api/og" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Per-route titles set in JS via useDocumentTitle; this is the fallback. -->
+    <title>SuperTable</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

@@ -1,0 +1,997 @@
+/* ===== Theme tokens ===== */
+:root,
+:root[data-theme='dark'] {
+  --bg: #0c0c0e;
+  --surface: #111114;
+  --surface-2: #16161b;
+  --border: #22222a;
+  --text: #e2e2ea;
+  --text-dim: #8a8a96;
+  --text-faint: #5a5a66;
+  --accent: #e2e2ea;
+
+  --zone-ucl-bg: #0c2240;
+  --zone-ucl-border: #1d6fa4;
+  --zone-uclq-bg: #0a1c33;
+  --zone-uclq-border: #1558a0;
+  --zone-uel-bg: #2a1245;
+  --zone-uel-border: #7c3aed;
+  --zone-uelq-bg: #1e0d33;
+  --zone-uelq-border: #9d5cf6;
+  --zone-uecl-bg: #0d2e1a;
+  --zone-uecl-border: #16a34a;
+  --zone-relplayoff-bg: #2e1a04;
+  --zone-relplayoff-border: #d97706;
+  --zone-rel-bg: #2a0808;
+  --zone-rel-border: #dc2626;
+
+  --form-w: #16a34a;
+  --form-d: #6b6b75;
+  --form-l: #dc2626;
+
+  --badge-cup: #f59e0b;
+  --badge-champ: #16a34a;
+  --badge-rel: #dc2626;
+  --gih: #f59e0b;
+}
+
+:root[data-theme='light'] {
+  --bg: #f4f4f6;
+  --surface: #ffffff;
+  --surface-2: #f8f8fa;
+  --border: #e0e0e6;
+  --text: #111118;
+  --text-dim: #5a5a66;
+  --text-faint: #9a9aa6;
+  --accent: #111118;
+
+  --zone-ucl-bg: #dbeafe;
+  --zone-ucl-border: #2563eb;
+  --zone-uclq-bg: #e6efff;
+  --zone-uclq-border: #1d4ed8;
+  --zone-uel-bg: #ede9fe;
+  --zone-uel-border: #7c3aed;
+  --zone-uelq-bg: #f1ebff;
+  --zone-uelq-border: #9d5cf6;
+  --zone-uecl-bg: #d6f5e0;
+  --zone-uecl-border: #16a34a;
+  --zone-relplayoff-bg: #fde9c8;
+  --zone-relplayoff-border: #d97706;
+  --zone-rel-bg: #fcdada;
+  --zone-rel-border: #dc2626;
+}
+
+/* ===== Base ===== */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+.mono, .team-row__rank, .team-row__pts, .team-row__gd, .team-row__gp,
+.league-col__col-headers, .league-col__meta, .legend__label,
+.stat__val, .form-pill, .ucl-entry__pts, .ucl-entry__pos,
+.ucl-entry__aux, .games-in-hand, .season {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+button { font-family: inherit; cursor: pointer; }
+
+/* ===== Header ===== */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.app-header__left { display: flex; align-items: baseline; gap: 12px; }
+.wordmark { font-weight: 700; letter-spacing: 0.5px; font-size: 18px; }
+.season { color: var(--text-dim); font-size: 12px; }
+
+.live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--form-w);
+  border: 1px solid var(--form-w);
+  border-radius: 3px;
+  padding: 1px 6px 1px 5px;
+  line-height: 1.4;
+}
+.live-pill__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--form-w);
+  animation: live-pulse 1.6s ease-in-out infinite;
+}
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.app-nav { display: flex; gap: 4px; }
+.nav-link {
+  text-decoration: none;
+  color: var(--text-dim);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.nav-link:hover { color: var(--text); background: var(--surface-2); }
+.nav-link.is-active { color: var(--text); background: var(--surface-2); }
+
+.theme-toggle,
+.legend-toggle {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1;
+}
+.theme-toggle:hover,
+.legend-toggle:hover { background: var(--surface-2); }
+
+/* Legend label uses Plex Mono per the spec; chevron stays in the body sans
+   font for a tighter glyph. */
+.legend-toggle__label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+.legend-toggle__chevron {
+  font-size: 11px;
+  line-height: 1;
+  color: var(--text-dim);
+}
+
+.app-header__right { position: relative; display: inline-flex; gap: 8px; align-items: center; }
+.legend-wrapper { position: relative; }
+
+/* ===== Page ===== */
+.page { padding: 16px 20px 60px; }
+.page-empty { padding: 40px 0; text-align: center; color: var(--text-dim); font-size: 13px; }
+
+/* ===== About page ===== */
+.page--about { padding: 32px 24px 80px; }
+.about {
+  max-width: 680px;
+  margin: 0 auto;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text);
+}
+.about__title {
+  margin: 0 0 24px;
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+}
+.about__intro p { margin: 0 0 16px; color: var(--text); }
+.about__intro p:last-child { margin-bottom: 0; }
+.about__rule {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+.about__section-heading {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0 0 24px;
+}
+.about__topic { margin-bottom: 24px; }
+.about__topic:last-of-type { margin-bottom: 0; }
+.about__topic h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 500;
+}
+.about__topic p { margin: 0; color: var(--text); }
+.about__footnote {
+  margin: 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text-faint);
+  letter-spacing: 0.3px;
+}
+
+/* Cup competitions list inside the About → Domestic Cup Winners section.
+   Each row: leading em-dash, mono-bold cup name, middle dot separator,
+   regular-weight qualification detail. */
+.about__cup-list {
+  list-style: none;
+  margin: 12px 0 16px;
+  padding: 0 0 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.about__cup-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 13px;
+}
+.about__cup-list li::before {
+  content: '—';
+  color: var(--text-faint);
+  flex-shrink: 0;
+}
+.about__cup-name {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  color: var(--text);
+}
+.about__cup-sep { color: var(--text-faint); }
+.about__cup-detail { color: var(--text-dim); }
+
+.about__back {
+  color: var(--text-dim);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+}
+.about__back:hover { color: var(--text); border-bottom-color: var(--text-dim); }
+
+/* How-to-read list — bulleted with inline visual examples (color swatches,
+   trophy pills, position arrows, games-in-hand demo). */
+.about__how-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.about__how-list li {
+  display: block;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text);
+}
+.about__how-list strong { color: var(--text); font-weight: 600; }
+
+.about__zone-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  margin-right: 4px;
+  vertical-align: -1px;
+  background: var(--swatch-bg);
+  border-left: 3px solid var(--swatch-border);
+}
+.about__zone-swatch--ucl  { --swatch-bg: var(--zone-ucl-bg);  --swatch-border: var(--zone-ucl-border); }
+.about__zone-swatch--uel  { --swatch-bg: var(--zone-uel-bg);  --swatch-border: var(--zone-uel-border); }
+.about__zone-swatch--uecl { --swatch-bg: var(--zone-uecl-bg); --swatch-border: var(--zone-uecl-border); }
+.about__zone-swatch--rel  { --swatch-bg: var(--zone-rel-bg);  --swatch-border: var(--zone-rel-border); }
+
+.about__zone-pill {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 2px 5px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  margin-right: 4px;
+  vertical-align: 1px;
+}
+
+.about__zone-arrow {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 0 3px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  margin-right: 4px;
+  vertical-align: 1px;
+}
+.about__zone-arrow--up   { color: var(--form-w); }
+.about__zone-arrow--down { color: var(--badge-rel); }
+
+.about__gih-demo {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  margin-right: 6px;
+}
+.about__gih-demo sup { color: var(--gih); font-size: 9px; font-weight: 500; }
+
+/* Back-to-table link at the very bottom of the About page. */
+.about__back-link {
+  margin: 24px 0 0;
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+}
+.about__back-link a {
+  color: var(--text-dim);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1px;
+}
+.about__back-link a:hover { color: var(--text); border-bottom-color: var(--text-dim); }
+
+/* ===== App footer ===== */
+.app-footer {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 20px 16px 32px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text-faint);
+  letter-spacing: 0.3px;
+}
+.app-footer a {
+  color: var(--text-dim);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+}
+.app-footer a:hover { color: var(--text); border-bottom-color: var(--text-dim); }
+.app-footer__sep { opacity: 0.5; }
+
+/* ===== Skeleton shimmer ===== */
+.skeleton {
+  display: inline-block;
+  background: linear-gradient(
+    90deg,
+    var(--surface-2) 0%,
+    var(--border) 50%,
+    var(--surface-2) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+  border-radius: 3px;
+}
+.skeleton--text { height: 10px; vertical-align: middle; }
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.team-row--skeleton {
+  display: grid;
+  grid-template-columns: 24px 1fr 40px 40px 32px;
+  gap: 6px;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  align-items: center;
+}
+.team-row--skeleton:last-child { border-bottom: none; }
+.league-col--skeleton .league-col__header { background: var(--surface-2); }
+
+/* ===== Rank-change chip =====
+   The --rc-ts custom property is set inline by TeamRow to the moment the
+   change was detected. We use animation-delay relative to that to fade out
+   ~10s later without needing a JS setTimeout per row. */
+.rank-change {
+  display: inline-block;
+  margin-left: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  padding: 0 3px;
+  border-radius: 2px;
+  border: 1px solid currentColor;
+  animation: rank-chip-fade 10s ease-out forwards;
+  animation-delay: 0s;
+}
+.rank-change--up   { color: var(--form-w); }
+.rank-change--down { color: var(--badge-rel); }
+@keyframes rank-chip-fade {
+  0%, 60% { opacity: 1; transform: translateY(0); }
+  100%    { opacity: 0; transform: translateY(-2px); pointer-events: none; }
+}
+
+/* ===== Mobile sheet =====
+   Fixed bottom-anchored panel + backdrop. Reuses .hover-card inner styles. */
+.hover-card-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: stretch;
+}
+.hover-card-sheet__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  animation: sheet-backdrop-in 0.18s ease-out;
+}
+.hover-card--sheet {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  border-radius: 12px 12px 0 0;
+  padding: 18px 16px 24px;
+  box-shadow: 0 -8px 28px rgba(0,0,0,0.4);
+  pointer-events: auto;
+  animation: sheet-slide-up 0.22s ease-out;
+  /* override the hover-mode positioning */
+  top: auto;
+  left: auto;
+  inset: auto;
+}
+.hover-card__close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 4px;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+.hover-card__close:hover { background: var(--surface-2); }
+@keyframes sheet-backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes sheet-slide-up {
+  from { transform: translateY(20%); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* ===== Dev panel ===== */
+.dev-panel {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 200;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+.dev-panel__chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  padding: 5px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.dev-panel__chip:hover { background: var(--surface-2); }
+.dev-panel__chip-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--text-dim);
+}
+
+.dev-panel.is-open .dev-panel__chip { display: none; }
+
+.dev-panel__body {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  min-width: 240px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+}
+.dev-panel__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px; gap: 12px;
+}
+.dev-panel__title {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--text-faint);
+}
+.dev-panel__refresh {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.dev-panel__refresh:hover:not(:disabled) { background: var(--surface-2); }
+.dev-panel__refresh:disabled { opacity: 0.5; cursor: progress; }
+
+.dev-panel__header-actions { display: inline-flex; align-items: center; gap: 6px; }
+.dev-panel .dev-panel__close {
+  width: 22px; height: 22px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  border-radius: 3px;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+.dev-panel .dev-panel__close:hover { background: var(--surface-2); color: var(--text); }
+
+.dev-panel__leagues {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.dev-panel__league {
+  display: grid;
+  grid-template-columns: 10px 32px 16px 1fr;
+  gap: 8px;
+  align-items: center;
+  padding: 3px 0;
+  font-size: 11px;
+}
+.dev-panel__league-id { color: var(--text); font-weight: 500; }
+.dev-panel__time { color: var(--text-dim); text-align: right; }
+
+.dev-panel__dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dev-panel__dot--fresh { background: var(--form-w); }
+.dev-panel__dot--aging { background: var(--badge-cup); }
+.dev-panel__dot--stale { background: var(--badge-rel); }
+.dev-panel__dot--unknown { background: var(--text-faint); }
+
+.dev-panel__error {
+  margin-top: 8px;
+  padding: 6px 8px;
+  border: 1px solid var(--badge-rel);
+  border-radius: 3px;
+  color: var(--badge-rel);
+  font-size: 10px;
+  word-break: break-word;
+}
+
+.dev-panel__legend {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 10px;
+  color: var(--text-faint);
+}
+.dev-panel__legend span { display: inline-flex; align-items: center; gap: 5px; }
+.dev-panel__legend i { display: inline-block; width: 6px; height: 6px; border-radius: 50%; }
+
+/* ===== Status bar =====
+   Lives at the bottom of the page now; styled as a discrete footer note
+   rather than a banner. No border, no background — just a faint line of
+   monospace text. Errors keep a muted red tint but stay visually quiet. */
+.status-bar {
+  margin: 24px 0 0;
+  padding: 4px 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.3px;
+  text-align: center;
+  background: transparent;
+  border: 0;
+}
+.status-bar--info { color: var(--text-faint); }
+.status-bar--warn { color: var(--badge-cup); opacity: 0.75; }
+.status-bar--error { color: var(--badge-rel); opacity: 0.7; }
+
+
+/* ===== Legend panel =====
+   Floats below the toggle button in the header. Position: absolute so it
+   overlays the table content rather than pushing it down. Always rendered
+   so the open/close transition runs both ways. */
+.legend-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+  z-index: 80;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.18s ease-out, transform 0.18s ease-out;
+}
+.legend-panel.is-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* On narrow screens, anchor to the right edge of the viewport so the panel
+   doesn't overflow off-screen, and cap its width. */
+@media (max-width: 720px) {
+  .legend-panel {
+    right: 12px;
+    max-width: calc(100vw - 24px);
+  }
+}
+
+/* The legend itself is just the flex layout for swatches — same as before
+   minus the sticky-bar styling that used to live here. */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  max-width: 720px;
+}
+.legend__item { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text-dim); }
+.legend__swatch {
+  width: 12px; height: 12px; border-radius: 2px;
+  background: var(--swatch-bg, var(--surface-2));
+  border-left: 3px solid var(--swatch-border, var(--border));
+}
+.legend__item[data-zone='UCL_LEAGUE'] .legend__swatch { --swatch-bg: var(--zone-ucl-bg); --swatch-border: var(--zone-ucl-border); }
+.legend__item[data-zone='UCL_QUALIFYING'] .legend__swatch { --swatch-bg: var(--zone-uclq-bg); --swatch-border: var(--zone-uclq-border); }
+.legend__item[data-zone='UEL_LEAGUE'] .legend__swatch { --swatch-bg: var(--zone-uel-bg); --swatch-border: var(--zone-uel-border); }
+.legend__item[data-zone='UEL_QUALIFYING'] .legend__swatch { --swatch-bg: var(--zone-uelq-bg); --swatch-border: var(--zone-uelq-border); }
+.legend__item[data-zone='UECL_QUALIFYING'] .legend__swatch { --swatch-bg: var(--zone-uecl-bg); --swatch-border: var(--zone-uecl-border); }
+.legend__item[data-zone='RELEGATION_PLAYOFF'] .legend__swatch { --swatch-bg: var(--zone-relplayoff-bg); --swatch-border: var(--zone-relplayoff-border); }
+.legend__item[data-zone='RELEGATED'] .legend__swatch { --swatch-bg: var(--zone-rel-bg); --swatch-border: var(--zone-rel-border); }
+
+/* ===== SuperTable grid ===== */
+.supertable-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(260px, 1fr));
+  gap: 12px;
+  overflow-x: auto;
+  align-items: start; /* don't stretch shorter leagues to match 20-team height */
+}
+@media (max-width: 1100px) {
+  .supertable-grid { grid-template-columns: repeat(5, 280px); }
+}
+
+/* ===== League column ===== */
+.league-col {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.league-col__header {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.league-col__title-row { display: flex; align-items: center; gap: 8px; }
+.league-col__flag { font-size: 16px; }
+.league-col__name { margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.2px; }
+.league-col__meta {
+  display: flex; justify-content: space-between;
+  margin-top: 4px; font-size: 11px; color: var(--text-dim);
+}
+.league-col__updated {
+  padding: 7px 10px;
+  border-top: 1px solid var(--border);
+  background: var(--surface-2);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text-faint);
+  letter-spacing: 0.3px;
+  text-align: right;
+}
+.league-col__updated.is-stale { color: var(--badge-cup); }
+
+.league-col__col-headers {
+  display: grid;
+  grid-template-columns: 24px 1fr 40px 40px 32px;
+  gap: 6px;
+  padding: 6px 10px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-faint);
+  border-bottom: 1px solid var(--border);
+}
+.league-col__col-headers > span:nth-child(3),
+.league-col__col-headers > span:nth-child(4),
+.league-col__col-headers > span:nth-child(5) { text-align: right; }
+
+.league-col__rows { display: flex; flex-direction: column; }
+
+/* ===== Team row ===== */
+.team-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 24px 1fr 40px 40px 32px;
+  gap: 6px;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  background: transparent;
+  transition: background 0.08s ease;
+  cursor: default;
+  outline: none;
+}
+.team-row:last-child { border-bottom: none; }
+.team-row:hover, .team-row:focus-visible { background: var(--surface-2); }
+.team-row:focus-visible { box-shadow: inset 0 0 0 1px var(--text-dim); }
+
+.team-row__rank { color: var(--text-dim); font-size: 12px; font-variant-numeric: tabular-nums; }
+.team-row__name {
+  display: flex; align-items: center; gap: 6px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.team-row__name-text { overflow: hidden; text-overflow: ellipsis; }
+.team-row__pts { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+.team-row__gd { text-align: right; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+.team-row__gp { text-align: right; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+
+.games-in-hand {
+  color: var(--gih);
+  font-size: 9px;
+  margin-left: 1px;
+  font-weight: 500;
+}
+
+/* Zone styling */
+.team-row[data-zone='UCL_LEAGUE'] { background: var(--zone-ucl-bg); border-left-color: var(--zone-ucl-border); }
+.team-row[data-zone='UCL_QUALIFYING'] { background: var(--zone-uclq-bg); border-left-color: var(--zone-uclq-border); }
+.team-row[data-zone='UEL_LEAGUE'] { background: var(--zone-uel-bg); border-left-color: var(--zone-uel-border); }
+.team-row[data-zone='UEL_QUALIFYING'] { background: var(--zone-uelq-bg); border-left-color: var(--zone-uelq-border); }
+.team-row[data-zone='UECL_QUALIFYING'] { background: var(--zone-uecl-bg); border-left-color: var(--zone-uecl-border); }
+.team-row[data-zone='RELEGATION_PLAYOFF'] { background: var(--zone-relplayoff-bg); border-left-color: var(--zone-relplayoff-border); }
+.team-row[data-zone='RELEGATED'] { background: var(--zone-rel-bg); border-left-color: var(--zone-rel-border); }
+
+/* ===== Badges ===== */
+.badge {
+  display: inline-block;
+  font-size: 9px;
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: 0.5px;
+  padding: 1px 4px;
+  border-radius: 2px;
+  background: transparent;
+  font-weight: 500;
+}
+.badge--cup { color: var(--badge-cup); border: 1px solid var(--badge-cup); }
+.badge--champ { color: var(--badge-champ); border: 1px solid var(--badge-champ); }
+.badge--rel { color: var(--badge-rel); border: 1px solid var(--badge-rel); }
+
+/* Trophy pill — short text label (UCL / UEL / CUP), outlined.
+   Border + text color come from inline style; transparent fill. */
+.trophy-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  padding: 2px 5px;
+  background: transparent;
+  flex-shrink: 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+/* ===== Hover card ===== */
+.hover-card {
+  position: fixed;
+  width: 240px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+  z-index: 1000;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+  animation: hoverCardIn 0.12s ease-out;
+  pointer-events: none;
+}
+@keyframes hoverCardIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.hover-card__name { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+.hover-card__zone { font-size: 11px; color: var(--text-dim); margin-bottom: 10px; }
+
+/* Trophy section — appears between the team name and the zone label.
+   Left border accent uses the badge color (set inline). The block is
+   visually distinct via the surface-2 background and a bottom divider so
+   it separates cleanly from the stats grid that follows. */
+.hover-card__trophy {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 8px 8px 8px 10px;
+  margin: 4px 0 8px;
+  background: var(--surface-2);
+  border-left: 3px solid var(--border);
+  border-radius: 0 4px 4px 0;
+}
+.hover-card__trophy + .hover-card__trophy { margin-top: -4px; }
+.hover-card__trophy-icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.hover-card__trophy-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.hover-card__trophy-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+.hover-card__trophy-detail {
+  font-size: 11px;
+  color: var(--text-dim);
+  line-height: 1.35;
+}
+
+.hover-card__stats {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 8px; margin-bottom: 10px;
+}
+.stat {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 6px 8px;
+  background: var(--surface-2);
+  border-radius: 4px;
+}
+.stat__label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-faint); }
+.stat__val { font-size: 14px; font-weight: 600; }
+
+.hover-card__form { display: flex; gap: 4px; margin-bottom: 10px; }
+.form-pill {
+  width: 18px; height: 18px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 600; color: #fff;
+  border-radius: 3px;
+}
+.form-pill--W { background: var(--form-w); }
+.form-pill--D { background: var(--form-d); }
+.form-pill--L { background: var(--form-l); }
+
+.hover-card__fixture {
+  display: flex; gap: 6px; align-items: baseline;
+  font-size: 11px; color: var(--text-dim);
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+}
+.hover-card__fixture-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-faint); }
+
+/* ===== UCL Race ===== */
+.ucl-race { max-width: 980px; margin: 0 auto; }
+.ucl-race__summary {
+  display: flex; align-items: baseline; gap: 12px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.ucl-race__count { font-size: 18px; font-weight: 600; }
+.ucl-race__count-of { color: var(--text-dim); font-weight: 400; }
+.ucl-race__note { font-size: 11px; color: var(--text-faint); }
+
+.ucl-section {
+  margin-bottom: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.ucl-section__header {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.ucl-section__header h2 { margin: 0 0 2px; font-size: 14px; font-weight: 600; }
+.ucl-section__header p { margin: 0; font-size: 11px; color: var(--text-dim); }
+
+.ucl-section--qualified { border-left: 3px solid var(--zone-ucl-border); }
+.ucl-section--bubble { border-left: 3px solid var(--badge-cup); }
+.ucl-section--chasing { border-left: 3px solid var(--text-dim); }
+
+.ucl-section__list { display: flex; flex-direction: column; }
+.ucl-entry {
+  display: grid;
+  grid-template-columns: 24px 36px 1.2fr 1.6fr 80px 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.ucl-entry:last-child { border-bottom: none; }
+.ucl-entry__pos { color: var(--text-dim); font-size: 11px; }
+.ucl-entry__league { color: var(--text-dim); font-size: 12px; }
+.ucl-entry__team { font-weight: 500; }
+.ucl-entry__pts { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+.ucl-entry__aux { color: var(--text-dim); font-size: 11px; text-align: right; }
+
+.ucl-empty { padding: 14px; color: var(--text-dim); font-size: 12px; }
+
+.ucl-race__context {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px;
+}
+.ucl-race__context h3 { margin: 0 0 10px; font-size: 13px; font-weight: 600; }
+.eps-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.eps-list li {
+  display: flex; justify-content: space-between;
+  font-size: 12px; padding: 4px 8px; border-radius: 3px;
+  color: var(--text-dim);
+}
+.eps-list li.has-eps { color: var(--text); background: var(--surface-2); }
+.eps-tag { font-family: 'IBM Plex Mono', monospace; font-size: 11px; }
+
+/* ===== Mobile ===== */
+@media (max-width: 720px) {
+  .supertable-grid {
+    grid-template-columns: repeat(5, 78vw);
+    gap: 10px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+  }
+  .league-col { scroll-snap-align: start; }
+  .legend { position: static; }
+  .app-header { padding: 10px 14px; }
+  .page { padding: 12px 14px 40px; }
+  /* Hover cards are touch-mode only on mobile via the sheet variant. */
+}
