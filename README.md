@@ -46,6 +46,7 @@ endpoints work locally without `vercel dev`.
 FOOTBALL_DATA_API_KEY=...     # server only — get one at football-data.org
 KV_REST_API_URL=              # provisioned by Vercel; leave blank in dev
 KV_REST_API_TOKEN=            # ditto
+CRON_SECRET=...               # server only — protects manual refresh endpoint
 VITE_USE_MOCK_DATA=false      # "true" to bypass the API and use src/data/mockStandings.js
 ```
 
@@ -111,7 +112,7 @@ public/
 
 Connect the repo to Vercel. Build settings auto-detected. Under
 Settings → Environment Variables, add `FOOTBALL_DATA_API_KEY` and
-`VITE_USE_MOCK_DATA=false`. Provision a KV database under
+`CRON_SECRET`, plus `VITE_USE_MOCK_DATA=false`. Provision a KV database under
 Storage → Create Database → KV; Vercel auto-injects `KV_REST_API_URL` and
 `KV_REST_API_TOKEN`. Push to `main` and Vercel handles the rest.
 

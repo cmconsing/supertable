@@ -12,7 +12,7 @@ export default function UclRacePage() {
       {empty && !loading ? (
         <div className="page-empty">No standings available.</div>
       ) : (
-        <UclRace />
+        <UclRace standings={standings} />
       )}
       <StatusBar loading={loading} error={error} empty={empty} />
     </main>
