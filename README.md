@@ -119,3 +119,4 @@ Storage → Create Database → KV; Vercel auto-injects `KV_REST_API_URL` and
 
 - Standings via [football-data.org](https://www.football-data.org/)
 - Built with [Claude Code](https://claude.com/claude-code)
+
