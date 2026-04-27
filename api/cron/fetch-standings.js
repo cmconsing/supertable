@@ -1,5 +1,5 @@
-// Manual full-refresh of all 5 leagues. Wired to the dev-panel "Force
-// refresh" button — also reachable as a plain POST to the URL.
+// Manual full-refresh of all 5 leagues. Wired to the local dev-panel "Force
+// refresh" button. In production, direct calls must include CRON_SECRET.
 //
 // (Still lives under /api/cron/ in case you upgrade to Vercel Pro later
 // and want to add a crons array to vercel.json. For now /api/standings
@@ -18,6 +18,14 @@ const MIN_INTERVAL_MS = 30 * 1000; // throttle manual force-refresh
 const LAST_RUN_KEY = 'standings:meta:lastRunAt';
 
 export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
+    return send(res, 405, { error: 'Method not allowed' });
+  }
+
+  const authError = validateRefreshAuth(req);
+  if (authError) return send(res, authError.status, { error: authError.message });
+
   // Min-interval guard. Skip when KV isn't configured (local dev fallback).
   if (kvAvailable) {
     const lastRunAt = await kvGet(LAST_RUN_KEY);
@@ -50,6 +58,31 @@ export default async function handler(req, res) {
     refreshedAt: new Date().toISOString(),
     kvAvailable,
   });
+}
+
+function validateRefreshAuth(req) {
+  const isProduction =
+    process.env.NODE_ENV === 'production' ||
+    process.env.VERCEL_ENV === 'production';
+  const secret = process.env.CRON_SECRET;
+
+  // Keep local dev simple, but require an explicit server-side secret in prod.
+  if (!isProduction && !secret) return null;
+  if (!secret) {
+    return { status: 503, message: 'Refresh endpoint is not configured' };
+  }
+
+  const headerSecret = req.headers?.['x-cron-secret'];
+  const authorization = req.headers?.authorization || '';
+  const bearerSecret = authorization.startsWith('Bearer ')
+    ? authorization.slice('Bearer '.length)
+    : null;
+
+  if (headerSecret !== secret && bearerSecret !== secret) {
+    return { status: 401, message: 'Unauthorized' };
+  }
+
+  return null;
 }
 
 function send(res, status, body) {

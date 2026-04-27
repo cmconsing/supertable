@@ -1,4 +1,3 @@
-import { useStandings } from '../hooks/useStandings.js';
 import { LEAGUES } from '../config/leagues.js';
 import { EPS_FLAGS } from '../config/qualificationRules.js';
 import { ordinal } from '../utils/formatters.js';
@@ -26,9 +25,7 @@ function uclSpotsForLeague(leagueId) {
   return 4 + (EPS_FLAGS[leagueId] ? 1 : 0);
 }
 
-export default function UclRace() {
-  const { standings } = useStandings();
-
+export default function UclRace({ standings }) {
   const qualified = [];
   const bubble = [];
   const chasing = [];
